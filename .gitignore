@@ -52,3 +52,7 @@ dist/
 .vscode/
 *.swp
 *.swo
+
+# Project docs (local only)
+life_alchemy_项目开发文档.md
+开发具体方案.html
