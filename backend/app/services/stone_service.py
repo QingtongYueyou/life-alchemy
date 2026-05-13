@@ -81,13 +81,15 @@ class StoneService:
             "total": total,
         }
 
-    async def toggle_favorite(self, user_id: str, stone_id: str) -> None:
+    async def toggle_favorite(self, user_id: str, stone_id: str) -> StoneResponse:
         stone = await self.stone_repo.get_by_id(stone_id, user_id)
         if not stone:
             from app.core.errors import NotFoundError
 
             raise NotFoundError("宝石")
         await self.stone_repo.toggle_favorite(stone_id, user_id, not stone.is_favorite)
+        await self.db.refresh(stone)
+        return StoneResponse.model_validate(stone)
 
     async def delete_stone(self, user_id: str, stone_id: str) -> None:
         stone = await self.stone_repo.get_by_id(stone_id, user_id)

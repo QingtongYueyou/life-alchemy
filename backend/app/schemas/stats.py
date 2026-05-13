@@ -1,7 +1,7 @@
-from pydantic import BaseModel
+from app.schemas.base import CamelModel
 
 
-class MonthlyStatsResponse(BaseModel):
+class MonthlyStatsResponse(CamelModel):
     month: str
     total: int
     distribution: dict[str, int]

@@ -1,3 +1,5 @@
+import { getAccessToken } from "@/lib/supabase/client";
+
 export interface ApiResponse<T> {
   success: boolean;
   data?: T;
@@ -7,7 +9,7 @@ export interface ApiResponse<T> {
   };
 }
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api";
 
 export async function apiRequest<T>(
   path: string,
@@ -20,11 +22,10 @@ export async function apiRequest<T>(
     ...((options.headers as Record<string, string>) || {}),
   };
 
-  // TODO: Add Supabase auth token
-  // const token = await getAccessToken();
-  // if (token) {
-  //   headers["Authorization"] = `Bearer ${token}`;
-  // }
+  const token = await getAccessToken();
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
 
   try {
     const response = await fetch(url, {

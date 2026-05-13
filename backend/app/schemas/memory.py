@@ -1,7 +1,7 @@
-from pydantic import BaseModel
+from app.schemas.base import CamelModel
 
 
-class DrawMemoryResponse(BaseModel):
+class DrawMemoryResponse(CamelModel):
     stone_id: str
     stone_type: str
     stone_color: str

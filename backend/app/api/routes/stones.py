@@ -40,18 +40,18 @@ async def get_stone(stone_id: str, db: DbSession, user_id: UserId):
     return ApiResponse(data=result)
 
 
-@router.post("/{stone_id}/favorite")
+@router.post("/{stone_id}/favorite", response_model=ApiResponse[StoneResponse])
 async def favorite_stone(stone_id: str, db: DbSession, user_id: UserId):
     service = StoneService(db)
-    await service.toggle_favorite(user_id, stone_id)
-    return ApiResponse(data={"message": "ok"})
+    result = await service.toggle_favorite(user_id, stone_id)
+    return ApiResponse(data=result)
 
 
-@router.delete("/{stone_id}/favorite")
+@router.delete("/{stone_id}/favorite", response_model=ApiResponse[StoneResponse])
 async def unfavorite_stone(stone_id: str, db: DbSession, user_id: UserId):
     service = StoneService(db)
-    await service.toggle_favorite(user_id, stone_id)
-    return ApiResponse(data={"message": "ok"})
+    result = await service.toggle_favorite(user_id, stone_id)
+    return ApiResponse(data=result)
 
 
 @router.delete("/{stone_id}")

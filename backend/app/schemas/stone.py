@@ -1,15 +1,17 @@
 from datetime import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import Field
+
+from app.schemas.base import CamelModel
 
 
-class CreateStoneRequest(BaseModel):
+class CreateStoneRequest(CamelModel):
     type: str = Field(..., pattern=r"^(strength|wisdom|charm|wealth|joy)$")
     content: str = Field(..., min_length=1, max_length=2000)
     image_url: str | None = None
 
 
-class StoneResponse(BaseModel):
+class StoneResponse(CamelModel):
     id: str
     type: str
     color: str
@@ -22,16 +24,13 @@ class StoneResponse(BaseModel):
     is_favorite: bool
     created_at: datetime
 
-    class Config:
-        from_attributes = True
 
-
-class CreateStoneResponse(BaseModel):
+class CreateStoneResponse(CamelModel):
     stone: StoneResponse
     hp_change: int
     hp_after: int
 
 
-class StoneListResponse(BaseModel):
+class StoneListResponse(CamelModel):
     list: list[StoneResponse]
     total: int
