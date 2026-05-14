@@ -25,8 +25,8 @@ async def get_current_user_id(
                 detail="Invalid token: missing user ID",
             )
         return user_id
-    except JWTError as e:
+    except JWTError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail=f"Invalid token: {e}",
+            detail="Invalid or expired token",
         )

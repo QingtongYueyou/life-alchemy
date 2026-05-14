@@ -1,3 +1,4 @@
+from pydantic import model_validator
 from pydantic_settings import BaseSettings
 
 
@@ -21,6 +22,17 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
+
+    @model_validator(mode="after")
+    def _check_critical_envs(self) -> "Settings":
+        missing = [
+            name
+            for name in ("DATABASE_URL", "SUPABASE_JWT_SECRET")
+            if not getattr(self, name)
+        ]
+        if missing:
+            raise ValueError(f"Missing required env vars: {', '.join(missing)}")
+        return self
 
     @property
     def cors_origin_list(self) -> list[str]:

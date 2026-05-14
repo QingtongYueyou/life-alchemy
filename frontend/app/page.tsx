@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { Button } from "@/components/common/Button";
 import { EmptyState } from "@/components/common/EmptyState";
+import { AuthGuard } from "@/lib/supabase/auth";
 import StoneCard from "@/components/stone/StoneCard";
 import { listStones } from "@/lib/api/stones";
 import type { Stone } from "@/types/stone";
@@ -33,6 +34,7 @@ export default function HomePage() {
   const hasMore = stones.length < total;
 
   return (
+    <AuthGuard>
     <MobilePage>
       <div className="flex items-center justify-between border-b border-[var(--line)] px-4 py-3">
         <div>
@@ -80,5 +82,6 @@ export default function HomePage() {
         </Button>
       </div>
     </MobilePage>
+    </AuthGuard>
   );
 }

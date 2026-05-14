@@ -27,10 +27,18 @@ export default function StoneCard({ stone }: StoneCardProps) {
       onClick={() => router.push(`/stones/${stone.id}`)}
     >
       <div className="flex items-start gap-3">
-        <span
-          className="mt-0.5 h-3 w-3 shrink-0 rounded-full"
-          style={{ background: `var(--${cfg?.color ?? "muted"})` }}
-        />
+        {stone.imageUrl ? (
+          <img
+            src={stone.imageUrl}
+            alt=""
+            className="h-10 w-10 shrink-0 rounded-lg object-cover"
+          />
+        ) : (
+          <span
+            className="mt-0.5 h-3 w-3 shrink-0 rounded-full"
+            style={{ background: `var(--${cfg?.color ?? "muted"})` }}
+          />
+        )}
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-medium text-[var(--text)]">
             {stone.aiTitle ?? cfg?.label ?? "宝石"}

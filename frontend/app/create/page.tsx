@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { Button } from "@/components/common/Button";
+import { AuthGuard } from "@/lib/supabase/auth";
+import { ImageUpload } from "@/components/common/ImageUpload";
 import StoneTypeSelector from "@/components/stone/StoneTypeSelector";
 import HpToast from "@/components/stone/HpToast";
 import { createStone } from "@/lib/api/stones";
@@ -16,6 +18,7 @@ export default function CreateStonePage() {
   const router = useRouter();
   const [type, setType] = useState<StoneType | null>(null);
   const [content, setContent] = useState("");
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [hpToast, setHpToast] = useState<{ show: boolean; hp: number }>({
@@ -30,7 +33,7 @@ export default function CreateStonePage() {
     setLoading(true);
     setError(null);
 
-    const res = await createStone({ type, content: content.trim() });
+    const res = await createStone({ type, content: content.trim(), imageUrl: imageUrl ?? undefined });
 
     if (!res.success || !res.data) {
       setError(res.error?.message ?? "创建失败，请重试");
@@ -45,6 +48,7 @@ export default function CreateStonePage() {
   }
 
   return (
+    <AuthGuard>
     <MobilePage>
       <HpToast show={hpToast.show} hpChange={hpToast.hp} />
 
@@ -84,6 +88,11 @@ export default function CreateStonePage() {
           </p>
         </section>
 
+        <section>
+          <p className="mb-2 text-sm font-medium text-[var(--text)]">附上照片</p>
+          <ImageUpload value={imageUrl} onChange={setImageUrl} />
+        </section>
+
         {error && <p className="text-center text-sm text-[var(--red)]">{error}</p>}
 
         <Button variant="primary" size="lg" fullWidth disabled={!canSubmit} onClick={handleSubmit}>
@@ -91,5 +100,6 @@ export default function CreateStonePage() {
         </Button>
       </div>
     </MobilePage>
+    </AuthGuard>
   );
 }

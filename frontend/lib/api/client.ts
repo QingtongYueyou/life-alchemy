@@ -33,6 +33,24 @@ export async function apiRequest<T>(
       headers,
     });
 
+    if (response.status === 401) {
+      const { signOut } = await import("@/lib/supabase/client");
+      await signOut();
+      window.location.href = "/login";
+      return {
+        success: false,
+        error: { code: "UNAUTHORIZED", message: "登录已过期，请重新登录" },
+      };
+    }
+
+    const contentType = response.headers.get("content-type");
+    if (!contentType?.includes("application/json")) {
+      return {
+        success: false,
+        error: { code: "INVALID_RESPONSE", message: "服务器返回了无效的响应" },
+      };
+    }
+
     const data = await response.json();
     return data as ApiResponse<T>;
   } catch (error) {
