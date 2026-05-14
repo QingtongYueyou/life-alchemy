@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import { uploadImage } from "@/lib/supabase/client";
 
 interface ImageUploadProps {
@@ -40,11 +41,13 @@ export function ImageUpload({ value, onChange }: ImageUploadProps) {
 
   if (value) {
     return (
-      <div className="relative">
-        <img
+      <div className="relative h-40 w-full">
+        <Image
           src={value}
           alt="已上传"
-          className="h-40 w-full rounded-xl object-cover"
+          fill
+          className="rounded-xl object-cover"
+          sizes="100vw"
         />
         <button
           type="button"

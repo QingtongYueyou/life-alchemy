@@ -2,6 +2,7 @@
 
 import { useEffect, useState, use } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { MobilePage } from "@/components/layout/MobilePage";
 import { Button } from "@/components/common/Button";
 import { AuthGuard } from "@/lib/supabase/auth";
@@ -81,10 +82,12 @@ export default function StoneDetailPage({ params }: { params: Promise<{ id: stri
           <div className="flex flex-col gap-4 p-4">
             <div className="flex flex-col items-center gap-2 pt-4">
               {stone.imageUrl ? (
-                <img
+                <Image
                   src={stone.imageUrl}
                   alt={stone.aiTitle ?? "宝石"}
-                  className="h-32 w-32 rounded-2xl object-cover shadow-md"
+                  width={128}
+                  height={128}
+                  className="rounded-2xl object-cover shadow-md"
                 />
               ) : (
                 <span

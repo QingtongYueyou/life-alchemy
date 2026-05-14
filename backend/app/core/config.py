@@ -26,9 +26,7 @@ class Settings(BaseSettings):
     @model_validator(mode="after")
     def _check_critical_envs(self) -> "Settings":
         missing = [
-            name
-            for name in ("DATABASE_URL", "SUPABASE_JWT_SECRET")
-            if not getattr(self, name)
+            name for name in ("DATABASE_URL", "SUPABASE_JWT_SECRET") if not getattr(self, name)
         ]
         if missing:
             raise ValueError(f"Missing required env vars: {', '.join(missing)}")

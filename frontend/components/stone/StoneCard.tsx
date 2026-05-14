@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Card } from "@/components/common/Card";
 import { RARITY_LABELS } from "@/lib/constants";
 import type { Stone } from "@/types/stone";
@@ -28,10 +29,12 @@ export default function StoneCard({ stone }: StoneCardProps) {
     >
       <div className="flex items-start gap-3">
         {stone.imageUrl ? (
-          <img
+          <Image
             src={stone.imageUrl}
             alt=""
-            className="h-10 w-10 shrink-0 rounded-lg object-cover"
+            width={40}
+            height={40}
+            className="shrink-0 rounded-lg object-cover"
           />
         ) : (
           <span

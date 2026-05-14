@@ -41,7 +41,18 @@ export default function HomePage() {
           <h1 className="text-lg font-bold text-[var(--accent)]">Life Alchemy</h1>
           <p className="text-xs text-[var(--muted)]">人生炼金术</p>
         </div>
-        <span className="text-xs text-[var(--muted)]">{total} 颗宝石</span>
+        <div className="flex items-center gap-2">
+          {total > 0 && (
+            <button
+              type="button"
+              onClick={() => router.push("/memory")}
+              className="rounded-full border border-[var(--line)] px-3 py-1 text-xs text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--accent)]"
+            >
+              回忆回血
+            </button>
+          )}
+          <span className="text-xs text-[var(--muted)]">{total} 颗宝石</span>
+        </div>
       </div>
 
       <div className="p-4">
